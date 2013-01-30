@@ -1,0 +1,68 @@
+<ivy-module version="2.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:noNamespaceSchemaLocation="http://ant.apache.org/ivy/schemas/ivy.xsd">
+    <info organisation="targtime" module="ChannelCenterStatistics" status="integration"></info>
+	<dependencies>
+		<!-- com.targtime.platform web-jdbc-util.jar  -->
+		<dependency org="com.targtime.platform" name="tage-jdbc-util" rev="1.0.0"/>
+		
+		<!-- servlet -->
+		<dependency org="javax.servlet" name="servlet-api" rev="3.0" />
+		
+		<!-- spring jar -->
+		<dependency org="org.springframework" name="spring-core" rev="3.1.2.RELEASE"/>
+		<dependency org="org.springframework" name="spring-beans" rev="3.1.2.RELEASE"/>
+		<dependency org="org.springframework" name="spring-context" rev="3.1.2.RELEASE"/>
+		<dependency org="org.springframework" name="spring-context-support" rev="3.1.2.RELEASE"/>
+
+		<dependency org="org.springframework" name="spring-aop" rev="3.1.2.RELEASE"/>
+		<dependency org="org.springframework" name="spring-transaction" rev="3.1.2.RELEASE"/>
+		<dependency org="org.springframework" name="spring-expression" rev="3.1.2.RELEASE"/>
+		<dependency org="org.springframework" name="spring-asm" rev="3.1.2.RELEASE"/>
+		<dependency org="org.springframework" name="spring-web" rev="3.1.2.RELEASE"/>
+		<dependency org="org.springframework" name="spring-web-servlet" rev="3.1.2.RELEASE"/>
+		<dependency org="org.springframework" name="spring-jdbc" rev="3.1.2.RELEASE"/>
+		
+		<!-- jstl -->
+		<dependency org="jstl" name="jstl" rev="1.2"/>
+		<dependency org="taglibs" name="standard" rev="1.1.2"/>
+		
+		<!-- test jar -->
+		<dependency org="junit" name="junit" rev="4.10"/>
+		<dependency org="org.springframework" name="spring-test" rev="3.1.2.RELEASE"/>
+		
+		<!-- logback -->
+ 		<dependency org="org.slf4j" name="slf4j-api" rev="1.6.4"/>
+ 		<dependency org="ch.qos.logback" name="logback-classic" rev="1.0.1"/>
+ 		<dependency org="ch.qos.logback" name="logback-core" rev="1.0.1"/>
+		
+		<!-- mysql -->
+ 		<dependency org="mysql" name="mysql-connector-java" rev="5.1.19"/>
+ 		
+ 		<!-- tomcat jar -->
+		<dependency org="org.apache.tomcat" name="tomcat-jdbc" rev="7.0.29"/>
+		<dependency org="org.apache.tomcat" name="tomcat-juli" rev="7.0.29"/>
+		
+		<!-- apache commons -->
+ 		<dependency org="org.apache.commons" name="commons-lang3" rev="3.1"/>
+ 		<dependency org="org.apache.commons" name="commons-logging" rev="1.1.1"/>
+ 		<dependency org="org.apache.commons" name="commons-beanutils" rev="1.8.3"/>
+ 		<dependency org="org.apache.commons" name="commons-codec" rev="1.6"/>		
+ 		
+ 		<dependency org="org.quartz-scheduler" name="quartz" rev="2.0.2"/>
+ 		
+ 		<!-- jackson json -->
+ 		<dependency org="org.codehaus.jackson" name="jackson-core" rev="2.1.1"/>
+ 		<dependency org="org.codehaus.jackson" name="jackson-databind" rev="2.1.1"/>
+ 		<dependency org="org.codehaus.jackson" name="jackson-annotations" rev="2.1.1"/>
+ 		
+ 		<!-- joda -->
+ 		<dependency org="org.joda.time" name="joda-time" rev="2.1"/>
+ 		
+ 		<!-- apache shiro -->
+ 		<dependency org="org.apache.shiro" name="shiro-core" rev="1.2.1"/>
+ 		<dependency org="org.apache.shiro" name="shiro-ehcache" rev="1.2.1"/>
+ 		<dependency org="org.apache.shiro" name="shiro-web" rev="1.2.1"/>
+ 		<dependency org="org.apache.shiro" name="shiro-spring" rev="1.2.1"/>
+
+	</dependencies>
+</ivy-module>

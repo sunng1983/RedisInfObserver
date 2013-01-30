@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="utf-8"?>
+<project name="web project build using ivy" basedir="." default="compile" xmlns:ivy="antlib:org.apache.ivy.ant" >
+	
+	<!-- compile args -->
+	<property name="compile.debug" value="true" />
+	<property name="compile.debuglevel" value="lines,vars,source" />
+	<property name="compile.deprecation" value="false" />
+	<property name="compile.optimize" value="true" />
+	<property name="javac.target" value="1.6" />
+	
+	<!-- config of tools -->
+	<property name="path.my.conf" value="/root/hudson_home/myconf" />
+	<property name="path.checkstyle.home" value="${path.my.conf}/checkstyle" />
+	<property name="path.findbugs.home" value="${path.my.conf}/findbugs-2.0.1" />
+	<property name="path.ivy.home" value="${path.my.conf}/ivy" />
+	<property name="path.ivy.cache" value="${path.ivy.home}/IvyCache" />
+	<property name="path.ivy.lib" value="${path.ivy.home}/IvyLib" />
+	<property name="path.reports.checkstyle" value="reports/checkstyle" />
+	<property name="path.reports.findbugs" value="reports/findbugs" />
+	<!-- config of project -->
+	<property name="path.project.lib" value="${basedir}/WebContent/WEB-INF/lib" />
+	<property name="path.project.build" value="${basedir}/WebContent/WEB-INF/classes" />
+	<property name="path.project.src" value="${basedir}/src/main/java" />
+	<property name="path.project.resource" value="${basedir}/src/main/resources" />
+	<property name="path.project.dist" value="${basedir}/dist" />
+	
+	<path id="ivy.lib">
+		<fileset dir="${path.ivy.lib}" includes="*.jar"/>
+	</path>
+	
+	<taskdef resource="org/apache/ivy/ant/antlib.xml"
+	     uri="antlib:org.apache.ivy.ant" classpathref="ivy.lib"/>
+	
+	<target name="clean" description="delete all generated files keeping sources only">
+		<delete dir="${path.project.lib}" />
+		<delete dir="${path.project.build}" />
+	</target>
+		
+	<target name="resolve">
+		<ivy:configure file="${path.ivy.home}/ivysettings.xml" />
+	    <ivy:resolve file="ivy.xml" />
+	</target>
+	
+	<target name="retrieve" depends="resolve">
+	    <ivy:retrieve pattern="${path.project.lib}/[artifact]-[revision].[ext]" />
+	</target>
+	
+	<target name="compile" depends="clean,retrieve" description="make a web project">
+		<mkdir dir="${path.project.build}" />
+		<javac destdir="${path.project.build}" optimize="on" debug="${compile.debug}" failonerror="true" 
+			srcdir="${path.project.src}" target="${javac.target}">
+			<compilerarg line="-encoding UTF-8 " />
+			<classpath>
+				<fileset dir="${path.project.lib}">
+					<include name="*.jar" />
+				</fileset>
+			</classpath>
+		</javac>
+		<copy todir="${path.project.build}" includeemptydirs="false">
+			<fileset dir="${path.project.resource}" />
+			<fileset dir="${path.project.src}">
+			    <include name="**/*.xml"/>
+			</fileset>
+			
+		</copy>
+		<tstamp>
+			<format property="makeTime" pattern="yyyy-MM-dd HH-mm-ss" />
+		</tstamp>
+		<mkdir dir="${path.project.dist}" />
+		<jar destfile="${path.project.dist}/${makeTime}.war">
+			<fileset dir="WebContent" />
+		</jar>
+	</target>
+	
+	<target name="compile-test" description="" >
+	</target>
+	
+	<target name="findbugs" description="" >
+		<taskdef name="findbugs" classname="edu.umd.cs.findbugs.anttask.FindBugsTask" classpath="${path.findbugs.home}/lib/findbugs-ant.jar" />
+		<mkdir dir="${path.reports.findbugs}" />
+		<findbugs home="${path.findbugs.home}" output="xml" outputFile="${path.reports.findbugs}/findbugs.xml" >
+			<auxClasspath path="${path.project.lib}/" />
+			<sourcePath path="${path.project.src}" />
+			<class location="${path.project.build}" />
+		</findbugs>
+	</target>
+	
+	<target name="checkstyle" description="Generates a report of code convention violations.">
+		<taskdef resource="checkstyletask.properties" classpath="${path.checkstyle.home}/checkstyle-5.5-all.jar"/>
+		<mkdir dir="${path.reports.checkstyle}" />
+		<checkstyle config="${path.checkstyle.home}/TG_CheckStyle.xml" failureProperty="checkstyle.failure" failOnViolation="false">
+			<formatter type="xml" tofile="${path.reports.checkstyle}/checkstyle.xml"/>
+			<fileset dir="${path.project.src}" includes="**/*.java" />
+		</checkstyle>
+
+		<style in="${path.reports.checkstyle}/checkstyle.xml" out="${path.reports.checkstyle}/checkstyle.html"
+			style="${path.checkstyle.home}/checkstyle-simple.xsl"/>
+	</target>
+</project>
